@@ -5,9 +5,9 @@
         <fileset dir="lib" includes="*.jar"/>
     </path>
 
-    <property name="classes" location="out/production/Release"/>
-    <property name="test-classes" location="out/test/Release"/>
-    <property name="test.data.dir" location="test_data"/>
+    <property name="classes" location="../../../intermediate/Linux/AuToBI/release"/>
+    <property name="test-classes" location="../../../intermediate/Linux/AuToBI/release"/>
+    <property name="test.data.dir" location="../../../intermediate/Linux/AuToBI/release/test_data"/>
 
     <path id="test.classpath">
         <fileset dir="lib" includes="*.jar"/>
@@ -29,7 +29,7 @@
     </target>
 
     <target name="jar" depends="compile">
-        <jar destfile="AuToBI.jar">
+        <jar destfile="../../../output/Linux/release/AuToBI.jar">
             <zipfileset dir="${classes}/" prefix=""/>
             <zipfileset src="lib/commons-math3-3.3.jar"/>
             <zipfileset src="lib/guava-16.0.1.jar"/>
