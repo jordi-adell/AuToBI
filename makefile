@@ -2,3 +2,7 @@
 
 all:
 	ant
+
+
+debug: all
+release: all
