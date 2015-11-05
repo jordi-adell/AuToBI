@@ -30,6 +30,7 @@
 
     <target name="jar" depends="compile">
       <property environment="env"/>
+	<mkdir  dir="${env.VERBIO_TTS_BIN}"/>
         <jar destfile="${env.VERBIO_TTS_BIN}/AuToBI.jar">
             <zipfileset dir="${classes}/" prefix=""/>
             <zipfileset src="lib/commons-math3-3.3.jar"/>
