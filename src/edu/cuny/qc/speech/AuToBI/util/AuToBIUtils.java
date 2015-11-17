@@ -35,8 +35,8 @@ import edu.cuny.qc.speech.AuToBI.core.AuToBIParameters;
 import edu.cuny.qc.speech.AuToBI.core.AuToBITask;
 import edu.cuny.qc.speech.AuToBI.core.Word;
 import edu.cuny.qc.speech.AuToBI.featureset.*;
-import org.apache.oro.io.GlobFilenameFilter;
 
+import org.apache.oro.io.GlobFilenameFilter;
 import org.apache.log4j.Logger;
 
 /**
@@ -60,7 +60,7 @@ public class AuToBIUtils {
    * @param s the message
    */
   public static void log(String s) {
-    logger.info(s);
+    //logger.info(s);
   }
 
   /**
@@ -69,7 +69,7 @@ public class AuToBIUtils {
    * @param s the message
    */
   public static void debug(String s) {
-    logger.debug(s);
+    //logger.debug(s);
   }
 
   /**
@@ -325,6 +325,7 @@ public class AuToBIUtils {
         }
       }
 
+      //AuToBIUtils.logger.debug("WORD: "+word.getLabel());
       // Assigns phrase ending tones.
       if (autobi.getTasks().containsKey("intonational_phrase_boundary_detection") &&
           word.hasAttribute(autobi.getHypothesizedFeature("intonational_phrase_boundary_detection"))) {
@@ -369,6 +370,8 @@ public class AuToBIUtils {
               word.getAttribute(autobi.getHypothesizedFeature("phrase_accent_classification")));
         }
       }
+      //AuToBIUtils.logger.debug("PA_CLASS="+word.getAttribute(autobi.getHypothesizedFeature("phrase_accent_classification")).toString()+" hyp_phase_boundary: "+word.getAttribute("hyp_phrase_boundary").toString());
+      //AuToBIUtils.logger.debug("----");
     }
   }
 
