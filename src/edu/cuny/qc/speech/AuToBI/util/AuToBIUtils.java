@@ -302,10 +302,7 @@ public class AuToBIUtils {
       // Assigns pitch accents to words.  If only accent detection is available, a binary True/False hypothesis
       // will be assigned.  If location and type hypotheses are available, the hypothesized type will be assigned.
       // Finally, if only type information is available, every word will be assigned its best guess for accent type.
-
-      //TODO: make sure this works even if getHypothesizeFeature doesn't have a feature for this.
-      if (autobi.getTasks().containsKey("pitch_accent_detection") &&
-          word.hasAttribute(autobi.getHypothesizedFeature("pitch_accent_detection"))) {
+      if (word.hasAttribute(autobi.getHypothesizedFeature("pitch_accent_detection"))) {
         if (word.hasAttribute(autobi.getConfidenceFeature("pitch_accent_detection"))) {
           Double conf = (Double) word.getAttribute(autobi.getConfidenceFeature("pitch_accent_detection"));
           if (!word.getAttribute(autobi.getHypothesizedFeature("pitch_accent_detection")).equals("ACCENTED")) {
@@ -317,8 +314,7 @@ public class AuToBIUtils {
               "pitch_accent_detection")));
         }
       }
-      if (autobi.getTasks().containsKey("pitch_accent_classification") &&
-          word.hasAttribute(autobi.getHypothesizedFeature("pitch_accent_classification"))) {
+      if (word.hasAttribute(autobi.getHypothesizedFeature("pitch_accent_classification"))) {
         if (!word.hasAttribute("hyp_pitch_accent") || word.getAttribute("hyp_pitch_accent").equals("ACCENTED")) {
           word.setAttribute("hyp_pitch_accent", word.getAttribute(autobi.getHypothesizedFeature(
               "pitch_accent_classification")));
@@ -327,8 +323,7 @@ public class AuToBIUtils {
 
       //AuToBIUtils.logger.debug("WORD: "+word.getLabel());
       // Assigns phrase ending tones.
-      if (autobi.getTasks().containsKey("intonational_phrase_boundary_detection") &&
-          word.hasAttribute(autobi.getHypothesizedFeature("intonational_phrase_boundary_detection"))) {
+      if (word.hasAttribute(autobi.getHypothesizedFeature("intonational_phrase_boundary_detection"))) {
         if (word.hasAttribute(autobi.getConfidenceFeature("intonational_phrase_boundary_detection"))) {
           Double conf =
               (Double) word.getAttribute(autobi.getConfidenceFeature("intonational_phrase_boundary_detection"));
@@ -342,18 +337,18 @@ public class AuToBIUtils {
               word.getAttribute(autobi.getHypothesizedFeature("intonational_phrase_boundary_detection")));
         }
       }
-
-      if (autobi.getTasks().containsKey("intermediate_phrase_boundary_detection") &&
-          word.hasAttribute(autobi.getHypothesizedFeature("intermediate_phrase_boundary_detection"))) {
+      //AuToBIUtils.logger.debug("INTON_PHRASE_BOUNDARY_DET="+word.getAttribute(autobi.getHypothesizedFeature("intonational_phrase_boundary_detection")).toString()+" hyp_phase_boundary: "+word.getAttribute("hyp_phrase_boundary").toString());
+      
+      if (word.hasAttribute(autobi.getHypothesizedFeature("intermediate_phrase_boundary_detection"))) {
         if (!word.hasAttribute("hyp_phrase_boundary") ||
             word.getAttribute("hyp_phrase_boundary").equals("NONBOUNDARY")) {
           word.setAttribute("hyp_phrase_boundary",
               word.getAttribute(autobi.getHypothesizedFeature("intermediate_phrase_boundary_detection")));
         }
       }
-
-      if (autobi.getTasks().containsKey("phrase_accent_boundary_tone_classification") &&
-          word.hasAttribute(autobi.getHypothesizedFeature("phrase_accent_boundary_tone_classification"))) {
+      //AuToBIUtils.logger.debug("INTER_PHRASE_BOUNDARY_DET="+word.getAttribute(autobi.getHypothesizedFeature("intermediate_phrase_boundary_detection")).toString()+" hyp_phase_boundary: "+word.getAttribute("hyp_phrase_boundary").toString());
+      
+      if (word.hasAttribute(autobi.getHypothesizedFeature("phrase_accent_boundary_tone_classification"))) {
         if (!word.hasAttribute("hyp_phrase_boundary") ||
             word.getAttribute("hyp_phrase_boundary").equals("INTONATIONAL_BOUNDARY")) {
           word.setAttribute("hyp_phrase_boundary",
@@ -361,9 +356,9 @@ public class AuToBIUtils {
                   autobi.getHypothesizedFeature("phrase_accent_boundary_tone_classification").replace("x", "%")));
         }
       }
-
-      if (autobi.getTasks().containsKey("phrase_accent_classification") &&
-          word.hasAttribute(autobi.getHypothesizedFeature("phrase_accent_classification"))) {
+      //AuToBIUtils.logger.debug("PABT_CLASS="+word.getAttribute(autobi.getHypothesizedFeature("phrase_accent_boundary_tone_classification").replace("x", "%")).toString()+" hyp_phase_boundary: "+word.getAttribute("hyp_phrase_boundary").toString());
+      
+      if (word.hasAttribute(autobi.getHypothesizedFeature("phrase_accent_classification"))) {
         if (!word.hasAttribute("hyp_phrase_boundary") ||
             word.getAttribute("hyp_phrase_boundary").equals("INTERMEDIATE_BOUNDARY")) {
           word.setAttribute("hyp_phrase_boundary",
