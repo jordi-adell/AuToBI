@@ -414,12 +414,6 @@ public class AuToBIUtils {
             serialized ? params.getParameter("intonational_phrase_boundary_detector") : null));
         params.setParameter("intonational_phrase_boundary_detection",
             params.getParameter("intonational_phrase_boundary_detector"));
-
-        // Use rhapsodie specific feature set.
-        if (params.booleanParameter("rhapsodie", false)) {
-          map.get("intonational_phrase_boundary_detection")
-              .setFeatureSet(new RhapIntonationalPhraseBoundaryDetectionFeatureSet());
-        }
       }
       if (params.hasParameter("intermediate_phrase_boundary_detector")) {
         map.put("intermediate_phrase_boundary_detection", getIntermediatePhraseDetectionTask(
