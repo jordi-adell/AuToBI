@@ -128,21 +128,63 @@ public class SpeakerNormalizationParameterGenerator {
       String speaker_id = autobi.getParameter("speaker_id");
       String output_file = autobi.getParameter("output_file");
       SpeakerNormalizationParameter norm_param = new SpeakerNormalizationParameter(speaker_id);
-
-      WavReader reader = new WavReader();
-      for (String filename : AuToBIUtils.glob(autobi.getParameter("wav_files"))) {
-        AuToBIUtils.info("processing file: " + filename);
-        WavData wav = reader.read(filename);
-        RAPTPitchExtractor pitch_extractor = new RAPTPitchExtractor();
-        IntensityExtractor intensity_extractor = new IntensityExtractor(wav);
-
-        Contour pitch_values = pitch_extractor.getPitch(wav);
-        Contour intensity_values = intensity_extractor.soundToIntensity();
-
-        norm_param.insertPitch(pitch_values);
-        norm_param.insertIntensity(intensity_values);
+      String gui_file="";
+      try{
+    	  gui_file = autobi.getParameter("gui_file");
       }
-
+      catch (AuToBIException e)
+      {
+    	  AuToBIUtils.info("gui_file: " + e.toString());
+      }
+      
+      WavReader reader = new WavReader();
+      if (gui_file!="")
+      {
+    	  AuToBIUtils.info("gui_file set to: " + gui_file);;
+    	  FileReader file = null;
+    	  try {
+    		    file = new FileReader(gui_file);
+    		    BufferedReader gui_reader = new BufferedReader(file);
+    		    String line = "";
+    		    while ((line = gui_reader.readLine()) != null) {
+    		    	AuToBIUtils.info("processing file: " + line + ".wav");
+    		        WavData wav = reader.read(line + ".wav");
+    		        RAPTPitchExtractor pitch_extractor = new RAPTPitchExtractor();
+    		        IntensityExtractor intensity_extractor = new IntensityExtractor(wav);
+    		
+    		        Contour pitch_values = pitch_extractor.getPitch(wav);
+    		        Contour intensity_values = intensity_extractor.soundToIntensity();
+    		
+    		        norm_param.insertPitch(pitch_values);
+    		        norm_param.insertIntensity(intensity_values);
+    		    }
+    		  } catch (Exception e) {
+    		      throw new RuntimeException(e);
+    		  } finally {
+    		    if (file != null) {
+    		      try {
+    		        file.close();
+    		      } catch (IOException e) {
+    		        // Ignore issues during closing 
+    		      }
+    		    }
+    		  }
+      }
+      else
+      {
+	      for (String filename : AuToBIUtils.glob(autobi.getParameter("wav_files"))) {
+	        AuToBIUtils.info("processing file: " + filename);
+	        WavData wav = reader.read(filename);
+	        RAPTPitchExtractor pitch_extractor = new RAPTPitchExtractor();
+	        IntensityExtractor intensity_extractor = new IntensityExtractor(wav);
+	
+	        Contour pitch_values = pitch_extractor.getPitch(wav);
+	        Contour intensity_values = intensity_extractor.soundToIntensity();
+	
+	        norm_param.insertPitch(pitch_values);
+	        norm_param.insertIntensity(intensity_values);
+	      }
+      }
       AuToBIUtils.info("Successfully generated normalization parameters.");
 
       AuToBIUtils.info("Generated Parameters: " + norm_param);
