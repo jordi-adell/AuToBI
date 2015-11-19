@@ -159,6 +159,12 @@ public class WavReader {
       ++index;
     }
 
+    try {
+	stream.close();
+    } catch (IOException e) {
+	throw new AuToBIException("Error closing stream from wav file");
+    }
+
     return data;
   }
 }
